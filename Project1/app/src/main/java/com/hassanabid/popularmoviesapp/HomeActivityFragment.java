@@ -47,10 +47,11 @@ public class HomeActivityFragment extends Fragment {
                 "http://api.openweathermap.org/data/2.5/forecast/daily?";
         final String SORT_PARAM = "sort_by";
         final String API_PARAM = "api_key";
-        String sort_order = "popularity.desc";
+        String sort_order_default = "popularity.desc";
+        String highest_rated = " vote_average.desc"
         String api_key = getActivity().getResources().getString(R.string.api_key);
         Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                .appendQueryParameter(SORT_PARAM, sort_order)
+                .appendQueryParameter(SORT_PARAM, sort_order_default)
                 .appendQueryParameter(API_PARAM, api_key)
                 .build();
 
