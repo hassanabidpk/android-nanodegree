@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 /**
  * Created by hassanabid on 8/23/15.
  */
@@ -21,10 +23,12 @@ public class MoviesDataAdapter extends BaseAdapter {
     private Context mContext;
     private String[][] movieDataStr;
     private LayoutInflater mInflater;
+    private ArrayList<MovieParcel> movieList;
 
-    public MoviesDataAdapter(Context c, String[][] movieData) {
+    public MoviesDataAdapter(Context c, String[][] movieData, ArrayList<MovieParcel> movies) {
         this.mContext = c;
         this.movieDataStr = movieData;
+        this.movieList = movies;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -57,7 +61,9 @@ public class MoviesDataAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         ImageView imageView = viewHolder.imageView;
-        String posterPath = movieDataStr[position][1];
+        MovieParcel movie = movieList.get(position);
+//        String posterPath = movieDataStr[position][1];
+        String posterPath = movie.poster;
         if(posterPath != null) {
             String posterUrl = "http://image.tmdb.org/t/p/w500/" + posterPath;
             Log.d(LOG_TAG, "poster url : " + posterUrl);

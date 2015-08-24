@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -42,8 +46,12 @@ public class HomeActivityFragment extends Fragment {
     private static final String API_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
     private static final String HIGHEST_RATED = "highest_rated";
     private static final String MOST_POPULAR = "popular";
+    private static final String MOVIE_DB_KEY = "moviedb";
 
     private GridView moviesGrid;
+    private ArrayList<MovieParcel> movieList;
+
+    MovieParcel[] movies;
 
     private View mLoadingView;
     private int mShortAnimationDuration;
@@ -66,6 +74,28 @@ public class HomeActivityFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(savedInstanceState == null || !savedInstanceState.containsKey(MOVIE_DB_KEY)) {
+//            movieList = new ArrayList<MovieParcel>(Arrays.asList(movies));
+            if(isNetworkAvailable()) {
+                new FetchMoviesTask().execute("popularity");
+            } else {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Cannot fetch movies")
+                        .setMessage("Please connect to wifi or enable cellular data!")
+                        .create()
+                        .show();
+            }
+        }
+        else {
+            movieList = savedInstanceState.getParcelableArrayList(MOVIE_DB_KEY);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -78,16 +108,30 @@ public class HomeActivityFragment extends Fragment {
         // Retrieve and cache the system's default "short" animation time.
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
-        if(isNetworkAvailable()) {
-            new FetchMoviesTask().execute("popularity");
-        } else {
+        if(movieList != null) {
+            final MoviesDataAdapter moviesDataAdapter = new MoviesDataAdapter(getActivity(),null,movieList);
+            moviesGrid.setAdapter(moviesDataAdapter);
+            moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.d(LOG_TAG, "Clicked : " + i);
+                    MovieParcel movie = movieList.get(i);
+                    mCallback.onMovieSelected(i,movie.title
+                            ,movie.poster,movie.overview,movie.release_date,movie.vote);
+                }
+            });
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Cannot fetch movies")
-                    .setMessage("Please connect to wifi or enable cellular data!")
-                    .create()
-                    .show();
         }
+//        if(isNetworkAvailable()) {
+//            new FetchMoviesTask().execute("popularity");
+//        } else {
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//            builder.setTitle("Cannot fetch movies")
+//                    .setMessage("Please connect to wifi or enable cellular data!")
+//                    .create()
+//                    .show();
+//        }
         setHasOptionsMenu(true);
         return view;
     }
@@ -111,12 +155,18 @@ public class HomeActivityFragment extends Fragment {
             JSONArray movieArray = movieJson.getJSONArray(MOVIE_LIST);
 
             String[][] resultStrs = new String[movieArray.length()][5];
+            movies = new MovieParcel[movieArray.length()];
             for(int i = 0; i < movieArray.length(); i++) {
                int k = 0;
 
                 // Get the JSON object representing the movie
                 JSONObject movieData = movieArray.getJSONObject(i);
-
+                movies[i] = new MovieParcel(
+                        movieData.getString(MOVIE_TITLE),
+                        movieData.getString(MOVIE_POSTER),
+                        movieData.getString(MOVIE_OVERVIEW),
+                        movieData.getString(MOVIE_RELEASE_DATE),
+                        movieData.getString(MOVIE_VOTES));
                 resultStrs[i][k] = movieData.getString(MOVIE_TITLE);
                 resultStrs[i][k+1] = movieData.getString(MOVIE_POSTER);
                 resultStrs[i][k+2] = movieData.getString(MOVIE_OVERVIEW);
@@ -125,7 +175,7 @@ public class HomeActivityFragment extends Fragment {
 
                 Log.d(LOG_TAG, "Movie data :" + i + "\n" + resultStrs[i]);
             }
-
+            movieList = new ArrayList<MovieParcel>(Arrays.asList(movies));
             return resultStrs;
         }
 
@@ -216,7 +266,7 @@ public class HomeActivityFragment extends Fragment {
         protected void onPostExecute(final String[][] result) {
             crossfade();
             if(result != null) {
-                final MoviesDataAdapter moviesDataAdapter = new MoviesDataAdapter(getActivity(),result);
+                final MoviesDataAdapter moviesDataAdapter = new MoviesDataAdapter(getActivity(),result,movieList);
                 moviesGrid.setAdapter(moviesDataAdapter);
                 moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -313,5 +363,11 @@ public class HomeActivityFragment extends Fragment {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(MOVIE_DB_KEY, movieList);
     }
 }
