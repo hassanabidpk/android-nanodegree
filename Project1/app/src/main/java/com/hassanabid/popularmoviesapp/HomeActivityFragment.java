@@ -76,9 +76,10 @@ public class HomeActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(LOG_TAG, "onCreate");
 
         if(savedInstanceState == null || !savedInstanceState.containsKey(MOVIE_DB_KEY)) {
-//            movieList = new ArrayList<MovieParcel>(Arrays.asList(movies));
+            Log.d(LOG_TAG,"MovieList not available in instancestate");
             if(isNetworkAvailable()) {
                 new FetchMoviesTask().execute("popularity");
             } else {
@@ -92,12 +93,14 @@ public class HomeActivityFragment extends Fragment {
         }
         else {
             movieList = savedInstanceState.getParcelableArrayList(MOVIE_DB_KEY);
+            Log.d(LOG_TAG,"MovieList retrieved with size : " + movieList.size());
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(LOG_TAG,"onCreateView");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         moviesGrid  = (GridView) view.findViewById(R.id.movieGrid);
         mLoadingView =  view.findViewById(R.id.loading_spinner);
@@ -109,7 +112,8 @@ public class HomeActivityFragment extends Fragment {
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
         if(movieList != null) {
-            final MoviesDataAdapter moviesDataAdapter = new MoviesDataAdapter(getActivity(),null,movieList);
+            crossfade();
+            final MoviesDataAdapter moviesDataAdapter = new MoviesDataAdapter(getActivity(),movieList);
             moviesGrid.setAdapter(moviesDataAdapter);
             moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -122,16 +126,7 @@ public class HomeActivityFragment extends Fragment {
             });
 
         }
-//        if(isNetworkAvailable()) {
-//            new FetchMoviesTask().execute("popularity");
-//        } else {
-//
-//            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//            builder.setTitle("Cannot fetch movies")
-//                    .setMessage("Please connect to wifi or enable cellular data!")
-//                    .create()
-//                    .show();
-//        }
+
         setHasOptionsMenu(true);
         return view;
     }
@@ -235,7 +230,6 @@ public class HomeActivityFragment extends Fragment {
                 }
 
                 movieJsonStr = buffer.toString();
-//                Log.v(LOG_TAG,"Movies JSOn data : " + movieJsonStr);
 
             } catch (IOException e) {
                 Log.e(LOG_TAG, "IO Error " + e);
@@ -266,7 +260,7 @@ public class HomeActivityFragment extends Fragment {
         protected void onPostExecute(final String[][] result) {
             crossfade();
             if(result != null) {
-                final MoviesDataAdapter moviesDataAdapter = new MoviesDataAdapter(getActivity(),result,movieList);
+                final MoviesDataAdapter moviesDataAdapter = new MoviesDataAdapter(getActivity(),movieList);
                 moviesGrid.setAdapter(moviesDataAdapter);
                 moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

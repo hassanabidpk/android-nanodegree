@@ -21,19 +21,17 @@ public class MoviesDataAdapter extends BaseAdapter {
 
     private static final String LOG_TAG = MoviesDataAdapter.class.getSimpleName();
     private Context mContext;
-    private String[][] movieDataStr;
     private LayoutInflater mInflater;
     private ArrayList<MovieParcel> movieList;
 
-    public MoviesDataAdapter(Context c, String[][] movieData, ArrayList<MovieParcel> movies) {
+    public MoviesDataAdapter(Context c, ArrayList<MovieParcel> movies) {
         this.mContext = c;
-        this.movieDataStr = movieData;
         this.movieList = movies;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
-        return movieDataStr.length;
+        return movieList.size();
     }
 
     public Object getItem(int position) {
