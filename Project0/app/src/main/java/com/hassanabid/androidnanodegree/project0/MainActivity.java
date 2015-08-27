@@ -1,5 +1,6 @@
 package com.hassanabid.androidnanodegree.project0;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,82 +19,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG = MainActivity.class.getSimpleName();
 
-    Button spotifyApp;
-    Button scoreApp;
-    Button libraryApp;
-    Button buildApp;
-    Button xyzApp;
-    Button capstoneApp;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        spotifyApp = (Button) findViewById(R.id.button_spotify);
-        scoreApp = (Button) findViewById(R.id.button_scores);
-        libraryApp = (Button) findViewById(R.id.button_library);
-        buildApp = (Button) findViewById(R.id.button_build);
-        xyzApp = (Button) findViewById(R.id.button_xyz);
-        capstoneApp = (Button) findViewById(R.id.button_capstone);
-
-        spotifyApp.setOnClickListener(onButtonClickListener);
-        scoreApp.setOnClickListener(onButtonClickListener);
-        libraryApp.setOnClickListener(onButtonClickListener);
-        buildApp.setOnClickListener(onButtonClickListener);
-        xyzApp.setOnClickListener(onButtonClickListener);
-        capstoneApp.setOnClickListener(onButtonClickListener);
-
     }
 
-    private View.OnClickListener onButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch(v.getId()){
-                case R.id.button_spotify:
-                    Toast.makeText(MainActivity.this, String.format(Locale.US,
-                                    getResources().getString(R.string.toast_message),
-                                    getResources().getString(R.string.spotify_streamer)),
-                                    Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.button_library:
-                    Toast.makeText(MainActivity.this, String.format(Locale.US,
-                                    getResources().getString(R.string.toast_message),
-                                    getResources().getString(R.string.library_app)),
-                                    Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.button_scores:
-                    Toast.makeText(MainActivity.this, String.format(Locale.US,
-                                    getResources().getString(R.string.toast_message),
-                                    getResources().getString(R.string.scores_app)),
-                                    Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.button_build:
-                    Toast.makeText(MainActivity.this, String.format(Locale.US,
-                                    getResources().getString(R.string.toast_message),
-                                    getResources().getString(R.string.built_it_bigger)),
-                                    Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.button_xyz:
-                    Toast.makeText(MainActivity.this, String.format(Locale.US,
-                                    getResources().getString(R.string.toast_message),
-                                    getResources().getString(R.string.xyz_reader)),
-                                    Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.button_capstone:
-                    Toast.makeText(MainActivity.this, String.format(Locale.US,
-                                    getResources().getString(R.string.toast_message),
-                                    getResources().getString(R.string.captsone_app)),
-                                    Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    Toast.makeText(MainActivity.this,
-                                    getResources().getString(R.string.invalid_option), Toast.LENGTH_SHORT).show();
-                    break;
-            }
-
-        }
-    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,5 +41,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void displayToast(View view) {
+
+        Button button = (Button) view;
+
+        String buttonText = (String) button.getText();
+
+        Context context = getApplicationContext();
+        CharSequence text = getString(R.string.open_app)
+                + " " + buttonText;
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }

@@ -24,6 +24,7 @@
         android:layout_gravity="center"
         android:layout_height="@dimen/button_height"
         android:textAllCaps="true"
+        android:onClick="displayToast"
         android:background="@color/material_orange"
         android:text="@string/spotify_streamer" />
     <Button
@@ -33,7 +34,7 @@
         android:layout_gravity="center"
         android:layout_height="@dimen/button_height"
         android:textAllCaps="true"
-        android:onClick="scoresClick"
+        android:onClick="displayToast"
         android:background="@color/material_blue"
         android:text="@string/scores_app" />
     <Button
@@ -43,7 +44,7 @@
         android:layout_gravity="center"
         android:layout_height="@dimen/button_height"
         android:textAllCaps="true"
-        android:onClick="libraryClick"
+        android:onClick="displayToast"
         android:background="@color/material_deep_teal_500"
         android:text="@string/library_app" />
     <Button
@@ -53,7 +54,7 @@
         android:layout_gravity="center"
         android:layout_height="@dimen/button_height"
         android:textAllCaps="true"
-        android:onClick="buildClick"
+        android:onClick="displayToast"
         android:background="@color/material_cyan"
         android:text="@string/built_it_bigger" />
     <Button
@@ -63,7 +64,7 @@
         android:layout_gravity="center"
         android:layout_height="@dimen/button_height"
         android:textAllCaps="true"
-        android:onClick="xyzClick"
+        android:onClick="displayToast"
         android:background="@color/material_green"
         android:text="@string/xyz_reader" />
     <Button
@@ -73,7 +74,7 @@
         android:layout_gravity="center"
         android:layout_height="@dimen/button_height"
         android:textAllCaps="true"
-        android:onClick="capstoneClick"
+        android:onClick="displayToast"
         android:textColor="@android:color/white"
         android:background="@color/material_pink"
         android:text="@string/captsone" />

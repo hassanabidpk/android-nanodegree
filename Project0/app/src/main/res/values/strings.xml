@@ -11,5 +11,6 @@
     <string name="captsone">Captsone: MY Own App</string>
     <string name="captsone_app">capstone app</string>
     <string name="toast_message">This button will launch my %s!</string>
+    <string name="open_app">This button will launch my </string>
     <string name="invalid_option">Invalid Option</string>
 </resources>
