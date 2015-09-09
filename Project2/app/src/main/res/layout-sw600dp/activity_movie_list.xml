@@ -12,7 +12,7 @@
     -->
 
     <fragment android:id="@+id/movie_list"
-        android:name="com.hassanabid.popularmoviesapp2.movieListFragment" android:layout_width="0dp"
+        android:name="com.hassanabid.popularmoviesapp2.MovieListFragment" android:layout_width="0dp"
         android:layout_height="match_parent" android:layout_weight="1"
         tools:layout="@android:layout/list_content" />
 

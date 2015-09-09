@@ -1,28 +1,15 @@
 package com.hassanabid.popularmoviesapp2;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
 
-/**
- * An activity representing a list of movies. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link movieDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- * <p/>
- * The activity makes heavy use of fragments. The list of items is a
- * {@link movieListFragment} and the item details
- * (if present) is a {@link movieDetailFragment}.
- * <p/>
- * This activity also implements the required
- * {@link movieListFragment.Callbacks} interface
- * to listen for item selections.
- */
-public class movieListActivity extends FragmentActivity
-        implements movieListFragment.Callbacks {
+public class MovieListActivity extends AppCompatActivity
+        implements MovieListFragment.OnMovieSelectedListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -36,46 +23,55 @@ public class movieListActivity extends FragmentActivity
         setContentView(R.layout.activity_movie_list);
 
         if (findViewById(R.id.movie_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
             mTwoPane = true;
+            // In two-pane mode
+            // Create new fragment and transaction
+            Fragment movieListFragment = new MovieListFragment();
+            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
+                    .beginTransaction();
 
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((movieListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.movie_list))
-                    .setActivateOnItemClick(true);
+            transaction.replace(R.id.movie_list, movieListFragment);
+            transaction.addToBackStack(null);
+
+            transaction.commit();
         }
 
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
-    /**
-     * Callback method from {@link movieListFragment.Callbacks}
-     * indicating that the item with the given ID was selected.
-     */
+
     @Override
-    public void onItemSelected(String id) {
+    public void onMovieSelected(int position,int id, String title, String poster_path, String overview, String release_date, String votes) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(movieDetailFragment.ARG_ITEM_ID, id);
-            movieDetailFragment fragment = new movieDetailFragment();
+            arguments.putInt(MovieDetailFragment.ID_KEY, id);
+            arguments.putString(MovieDetailFragment.TITLE_KEY, title);
+            arguments.putString(MovieDetailFragment.POSTER_KEY, poster_path);
+            arguments.putString(MovieDetailFragment.OVERVIEW_KEY, overview);
+            arguments.putString(MovieDetailFragment.RELEASE_DATE_KEY, release_date);
+            arguments.putString(MovieDetailFragment.VOTES_KEY, votes);
+
+
+            MovieDetailFragment fragment = new MovieDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.movie_detail_container, fragment)
                     .commit();
 
         } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, movieDetailActivity.class);
-            detailIntent.putExtra(movieDetailFragment.ARG_ITEM_ID, id);
-            startActivity(detailIntent);
+            // In single-pane mode,
+
+            Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
+            intent.putExtra(MovieDetailFragment.ID_KEY,id);
+            intent.putExtra(MovieDetailFragment.TITLE_KEY, title);
+            intent.putExtra(MovieDetailFragment.POSTER_KEY, poster_path);
+            intent.putExtra(MovieDetailFragment.OVERVIEW_KEY, overview);
+            intent.putExtra(MovieDetailFragment.RELEASE_DATE_KEY, release_date);
+            intent.putExtra(MovieDetailFragment.VOTES_KEY, votes);
+            startActivity(intent);
         }
     }
 }

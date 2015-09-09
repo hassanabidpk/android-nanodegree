@@ -1,81 +1,129 @@
 package com.hassanabid.popularmoviesapp2;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
-import com.hassanabid.popularmoviesapp2.dummy.DummyContent;
+import com.hassanabid.popularmoviesapp2.adapters.MoviesDataAdapter;
 
-/**
- * A list fragment representing a list of movies. This fragment
- * also supports tablet devices by allowing list items to be given an
- * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link movieDetailFragment}.
- * <p/>
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
- */
-public class movieListFragment extends ListFragment {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    /**
-     * The serialization (saved instance state) Bundle key representing the
-     * activated item position. Only used on tablets.
-     */
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class MovieListFragment extends android.support.v4.app.Fragment {
+
+
+    private static final String LOG_TAG = MovieListFragment.class.getSimpleName();
+    private static final String API_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
+    private static final String HIGHEST_RATED = "highest_rated";
+    private static final String MOST_POPULAR = "popular";
+    private static final String MOVIE_DB_KEY = "moviedb";
+
+    private GridView moviesGrid;
+    private ArrayList<MovieParcel> movieList;
+
+    MovieParcel[] movies;
+
+    private View mLoadingView;
+    private int mShortAnimationDuration;
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
-    /**
-     * The fragment's current callback object, which is notified of list item
-     * clicks.
-     */
-    private Callbacks mCallbacks = sDummyCallbacks;
+    private OnMovieSelectedListener mCallback;
 
-    /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-
-    /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
-     */
-    public interface Callbacks {
-        /**
-         * Callback for when an item has been selected.
-         */
-        public void onItemSelected(String id);
+    // Container Activity must implement this interface
+    public interface OnMovieSelectedListener {
+        public void onMovieSelected(int position, int id, String title, String poster_path,
+                                    String overview, String release_date, String votes);
     }
 
-    /**
-     * A dummy implementation of the {@link Callbacks} interface that does
-     * nothing. Used only when this fragment is not attached to an activity.
-     */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
-        @Override
-        public void onItemSelected(String id) {
-        }
-    };
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public movieListFragment() {
+    public MovieListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(LOG_TAG, "onCreate");
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        if(savedInstanceState == null || !savedInstanceState.containsKey(MOVIE_DB_KEY)) {
+            Log.d(LOG_TAG,"MovieList not available in instancestate");
+            if(isNetworkAvailable()) {
+                new FetchMoviesTask().execute("popularity");
+            } else {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Cannot fetch movies")
+                        .setMessage("Please connect to wifi or enable cellular data!")
+                        .create()
+                        .show();
+            }
+        }
+        else {
+            movieList = savedInstanceState.getParcelableArrayList(MOVIE_DB_KEY);
+            Log.d(LOG_TAG,"MovieList retrieved with size : " + movieList.size());
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.d(LOG_TAG,"onCreateView");
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        moviesGrid  = (GridView) view.findViewById(R.id.movieGrid);
+        mLoadingView =  view.findViewById(R.id.loading_spinner);
+
+        // Initially hide the content view.
+        moviesGrid.setVisibility(View.GONE);
+
+        // Retrieve and cache the system's default "short" animation time.
+        mShortAnimationDuration = getResources().getInteger(
+                android.R.integer.config_shortAnimTime);
+        if(movieList != null) {
+            crossfade();
+            final MoviesDataAdapter moviesDataAdapter = new MoviesDataAdapter(getActivity(),movieList);
+            moviesGrid.setAdapter(moviesDataAdapter);
+            moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.d(LOG_TAG, "Clicked : " + i);
+                    MovieParcel movie = movieList.get(i);
+                    mCallback.onMovieSelected(i,movie.id,movie.title
+                            ,movie.poster,movie.overview,movie.release_date,movie.vote);
+                }
+            });
+
+        }
+
+        setHasOptionsMenu(true);
+        return view;
     }
 
     @Override
@@ -85,52 +133,38 @@ public class movieListFragment extends ListFragment {
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+//            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        // Activities containing this fragment must implement its callbacks.
-        if (!(activity instanceof Callbacks)) {
-            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnMovieSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnMovieSelectedListener");
         }
-
-        mCallbacks = (Callbacks) activity;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
-        // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = sDummyCallbacks;
-    }
-
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        super.onListItemClick(listView, view, position, id);
-
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
-            // Serialize and persist the activated item position.
-            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-        }
+        outState.putParcelableArrayList(MOVIE_DB_KEY, movieList);
     }
 
     /**
      * Turns on activate-on-click mode. When this mode is on, list items will be
      * given the 'activated' state when touched.
-     */
+
     public void setActivateOnItemClick(boolean activateOnItemClick) {
         // When setting CHOICE_MODE_SINGLE, ListView will automatically
         // give items the 'activated' state when touched.
@@ -147,5 +181,229 @@ public class movieListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+     */
+
+    public class FetchMoviesTask extends AsyncTask<String,Void,String[][]> {
+
+        private final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
+
+        private String[][] getMovieDataFromJson(String movieJsonStr)
+                throws JSONException {
+
+            // These are the names of the JSON objects that need to be extracted.
+            final String MOVIE_ID = "id";
+            final String MOVIE_LIST = "results";
+            final String MOVIE_TITLE = "original_title";
+            final String MOVIE_POSTER = "poster_path";
+            final String MOVIE_OVERVIEW = "overview";
+            final String MOVIE_RELEASE_DATE = "release_date";
+            final String MOVIE_VOTES = "vote_average";
+
+            JSONObject movieJson = new JSONObject(movieJsonStr);
+            JSONArray movieArray = movieJson.getJSONArray(MOVIE_LIST);
+
+            String[][] resultStrs = new String[movieArray.length()][5];
+            movies = new MovieParcel[movieArray.length()];
+            for(int i = 0; i < movieArray.length(); i++) {
+                int k = 0;
+
+                // Get the JSON object representing the movie
+                JSONObject movieData = movieArray.getJSONObject(i);
+                movies[i] = new MovieParcel(
+                        movieData.getInt(MOVIE_ID),
+                        movieData.getString(MOVIE_TITLE),
+                        movieData.getString(MOVIE_POSTER),
+                        movieData.getString(MOVIE_OVERVIEW),
+                        movieData.getString(MOVIE_RELEASE_DATE),
+                        movieData.getString(MOVIE_VOTES));
+                resultStrs[i][k] = movieData.getString(MOVIE_TITLE);
+                resultStrs[i][k+1] = movieData.getString(MOVIE_POSTER);
+                resultStrs[i][k+2] = movieData.getString(MOVIE_OVERVIEW);
+                resultStrs[i][k+3] = movieData.getString(MOVIE_RELEASE_DATE);
+                resultStrs[i][k+4] = movieData.getString(MOVIE_VOTES);
+
+                Log.d(LOG_TAG, "Movie data :" + i + "\n" + resultStrs[i]);
+            }
+            movieList = new ArrayList<MovieParcel>(Arrays.asList(movies));
+            return resultStrs;
+        }
+
+
+        @Override
+        protected String[][] doInBackground(String... params) {
+
+            if(params.length == 0)
+                return  null;
+
+            HttpURLConnection httpURLConnection = null;
+            BufferedReader bufferedReader = null;
+
+            String movieJsonStr = null;
+
+            String sort_order = "popularity.desc";
+
+            try {
+                final String MOVIES_BASE_URL = "http://api.themoviedb.org/3/discover/movie?";
+                final String SORT_PARAM = "sort_by";
+                final String API_PARAM = "api_key";
+
+                if(params[0].equals("highest_rated")) {
+                    sort_order = "vote_average.desc";
+                }
+                String api_key = getActivity().getResources().getString(R.string.api_key);
+                Uri builtUri = Uri.parse(MOVIES_BASE_URL).buildUpon()
+                        .appendQueryParameter(SORT_PARAM, sort_order)
+                        .appendQueryParameter(API_PARAM, api_key)
+                        .build();
+                URL url = new URL(builtUri.toString());
+
+                Log.d(LOG_TAG,"movies Uri  : " + builtUri.toString());
+
+                httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("GET");
+                httpURLConnection.connect();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+
+                if(inputStream == null) {
+                    return null;
+                }
+
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+
+                while((line = bufferedReader.readLine()) != null) {
+
+                    buffer.append(line + "\n");
+
+                }
+
+                if(buffer.length() == 0) {
+                    return null;
+                }
+
+                movieJsonStr = buffer.toString();
+
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "IO Error " + e);
+                return null;
+            } finally {
+                if(httpURLConnection != null)
+                    httpURLConnection.disconnect();
+                if(bufferedReader != null) {
+                    try {
+                        bufferedReader.close();
+                    } catch (final IOException e) {
+                        Log.e(LOG_TAG, "Error closing stream", e);
+                    }
+                }
+
+            }
+            try {
+                return getMovieDataFromJson(movieJsonStr);
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(final String[][] result) {
+            crossfade();
+            if(result != null) {
+                final MoviesDataAdapter moviesDataAdapter = new MoviesDataAdapter(getActivity(),movieList);
+                moviesGrid.setAdapter(moviesDataAdapter);
+                moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Log.d(LOG_TAG,"Clicked : " + i);
+                        // Include ID
+                        mCallback.onMovieSelected(i,1,result[i][0]
+                                ,result[i][1],result[i][2],result[i][3],result[i][4]);
+                    }
+                });
+            }
+
+        }
+    }
+
+    private void crossfade() {
+
+        // Set the content view to 0% opacity but visible, so that it is visible
+        // (but fully transparent) during the animation.
+        moviesGrid.setAlpha(0f);
+        moviesGrid.setVisibility(View.VISIBLE);
+
+        // Animate the content view to 100% opacity, and clear any animation
+        // listener set on the view.
+        moviesGrid.animate()
+                .alpha(1f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(null);
+
+        // Animate the loading view to 0% opacity. After the animation ends,
+        // set its visibility to GONE as an optimization step (it won't
+        // participate in layout passes, etc.)
+        mLoadingView.animate()
+                .alpha(0f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mLoadingView.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private boolean isNetworkAvailable() {
+
+        ConnectivityManager cm =
+                (ConnectivityManager)getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_home, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_popular_movies) {
+            if(isNetworkAvailable()) {
+                mLoadingView.setVisibility(View.VISIBLE);
+                new FetchMoviesTask().execute(MOST_POPULAR);
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Cannot fetch movies")
+                        .setMessage("Please connect to wifi or enable cellular data!")
+                        .create()
+                        .show();
+            }
+            return true;
+        } else {
+            if(isNetworkAvailable()) {
+                mLoadingView.setVisibility(View.VISIBLE);
+                new FetchMoviesTask().execute(HIGHEST_RATED);
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Cannot fetch movies")
+                        .setMessage("Please connect to wifi or enable cellular data!")
+                        .create()
+                        .show();
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

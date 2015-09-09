@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hassanabid.popularmoviesapp2" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".movieListActivity"
+            android:name=".MovieListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,12 +20,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".movieDetailActivity"
+            android:name=".MovieDetailActivity"
             android:label="@string/title_movie_detail"
-            android:parentActivityName=".movieListActivity" >
+            android:parentActivityName=".MovieListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".movieListActivity" />
+                android:value=".MovieListActivity" />
         </activity>
     </application>
 
