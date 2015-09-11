@@ -33,6 +33,7 @@
         app:elevation="4dp"
         android:src="@drawable/ic_star_white_48dp">
     </android.support.design.widget.FloatingActionButton>
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -44,7 +45,7 @@
             <ImageView
                 android:id="@+id/posterDetail"
                 android:layout_width="160dp"
-                android:paddingLeft="15dp"
+                android:paddingLeft="25dp"
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"/>
 
@@ -78,7 +79,28 @@
                 android:id="@+id/overviewText"
                 android:layout_marginTop="15dp"
                 android:textSize="16dp"
-                android:paddingBottom="15dp"/>
+                android:paddingBottom="20dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:id="@+id/separator1"
+                android:layout_below="@id/overviewText"
+                android:background="@color/white"/>
+            <LinearLayout android:id="@+id/movie_trailers"
+                android:orientation="vertical"
+                android:layout_below="@id/separator1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/element_spacing_normal">
+
+                <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/trailer_header"
+                android:textSize="24sp"
+                android:layout_height="wrap_content"
+                android:text="@string/movietrailer"
+                android:layout_marginLeft="@dimen/element_spacing_normal"/>
+            </LinearLayout>
         </RelativeLayout>
 
     </ScrollView>

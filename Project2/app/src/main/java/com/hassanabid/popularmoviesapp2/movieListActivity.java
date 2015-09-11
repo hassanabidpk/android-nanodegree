@@ -29,7 +29,8 @@ public class MovieListActivity extends AppCompatActivity
             Fragment movieListFragment = new MovieListFragment();
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
                     .beginTransaction();
-
+            Bundle arguments = new Bundle();
+            arguments.putInt(MovieDetailFragment.ID_KEY, 1);
             transaction.replace(R.id.movie_list, movieListFragment);
             transaction.addToBackStack(null);
 

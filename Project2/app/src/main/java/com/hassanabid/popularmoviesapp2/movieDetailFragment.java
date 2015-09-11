@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class MovieDetailFragment extends Fragment {
     String overview;
     String release_date;
     String votes;
+    private ViewGroup trailersLayout;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -77,6 +79,7 @@ public class MovieDetailFragment extends Fragment {
         ImageView posterView = (ImageView) rootView.findViewById(R.id.posterDetail);
         TextView overViewTextView = (TextView) rootView.findViewById(R.id.overviewText);
         final FloatingActionButton favoriteButton = (FloatingActionButton) rootView.findViewById(R.id.favoriteBtn);
+        trailersLayout = (ViewGroup) rootView.findViewById(R.id.movie_trailers);
 
         if (poster.equals("null") || poster.equals(null) || poster.equals("")) {
             posterView.setImageResource(R.drawable.empty_photo);
@@ -104,8 +107,39 @@ public class MovieDetailFragment extends Fragment {
             }
         });
 
-        Log.d(LOG_TAG,"Movie id : " + movie_id + " Title : " + title);
-
+        Log.d(LOG_TAG, "Movie id : " + movie_id + " Title : " + title);
+        setmovieTrailers(new String[3]);
         return rootView;
+    }
+
+    private void setmovieTrailers(String[] trailers) {
+
+        if(trailers == null )
+            return;
+
+        final ViewGroup speakersGroup = trailersLayout;
+
+        // Remove all existing trailers (everything but first child, which is the header)
+        for (int i = speakersGroup.getChildCount() - 1; i >= 1; i--) {
+            speakersGroup.removeViewAt(i);
+        }
+
+        final LayoutInflater inflater = getActivity().getLayoutInflater();
+        boolean hasTrailers = true;
+
+        for (String trailer : trailers) {
+
+            final View trailerView = inflater
+                    .inflate(R.layout.trailer_single_item, speakersGroup, false);
+            final TextView trailerTitle = (TextView) trailerView
+                    .findViewById(R.id.trailerTitle);
+            final ImageButton trailerPlay = (ImageButton) trailerView
+                    .findViewById(R.id.trailerPlay);
+            hasTrailers = true;
+            speakersGroup.addView(trailerView);
+        }
+
+        speakersGroup.setVisibility(hasTrailers ? View.VISIBLE : View.GONE);
+
     }
 }

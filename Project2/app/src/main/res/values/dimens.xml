@@ -3,4 +3,5 @@
     <dimen name="activity_horizontal_margin">3dp</dimen>
     <dimen name="activity_vertical_margin">3dp</dimen>
     <dimen name="poster_size">130dp</dimen>
+    <dimen name="element_spacing_normal">10dp</dimen>
 </resources>
