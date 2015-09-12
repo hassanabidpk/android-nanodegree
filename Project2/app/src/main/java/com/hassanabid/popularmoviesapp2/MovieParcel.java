@@ -25,6 +25,7 @@ public class MovieParcel implements Parcelable{
     }
 
     private MovieParcel(Parcel in){
+        id = in.readInt();
         title = in.readString();
         poster = in.readString();
         overview = in.readString();

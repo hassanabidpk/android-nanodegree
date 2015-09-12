@@ -60,11 +60,6 @@ public class MovieListFragment extends android.support.v4.app.Fragment {
                                     String overview, String release_date, String votes);
     }
 
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public MovieListFragment() {
     }
 
@@ -99,11 +94,8 @@ public class MovieListFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         moviesGrid  = (GridView) view.findViewById(R.id.movieGrid);
         mLoadingView =  view.findViewById(R.id.loading_spinner);
-
-        // Initially hide the content view.
         moviesGrid.setVisibility(View.GONE);
 
-        // Retrieve and cache the system's default "short" animation time.
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
         if(movieList != null) {
@@ -126,22 +118,11 @@ public class MovieListFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // Restore the previously serialized activated item position.
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-//            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
+
         try {
             mCallback = (OnMovieSelectedListener) activity;
         } catch (ClassCastException e) {
@@ -161,28 +142,6 @@ public class MovieListFragment extends android.support.v4.app.Fragment {
         outState.putParcelableArrayList(MOVIE_DB_KEY, movieList);
     }
 
-    /**
-     * Turns on activate-on-click mode. When this mode is on, list items will be
-     * given the 'activated' state when touched.
-
-    public void setActivateOnItemClick(boolean activateOnItemClick) {
-        // When setting CHOICE_MODE_SINGLE, ListView will automatically
-        // give items the 'activated' state when touched.
-        getListView().setChoiceMode(activateOnItemClick
-                ? ListView.CHOICE_MODE_SINGLE
-                : ListView.CHOICE_MODE_NONE);
-    }
-
-    private void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
-            getListView().setItemChecked(mActivatedPosition, false);
-        } else {
-            getListView().setItemChecked(position, true);
-        }
-
-        mActivatedPosition = position;
-    }
-     */
 
     public class FetchMoviesTask extends AsyncTask<String,Void,String[][]> {
 
@@ -203,7 +162,7 @@ public class MovieListFragment extends android.support.v4.app.Fragment {
             JSONObject movieJson = new JSONObject(movieJsonStr);
             JSONArray movieArray = movieJson.getJSONArray(MOVIE_LIST);
 
-            String[][] resultStrs = new String[movieArray.length()][5];
+            String[][] resultStrs = new String[movieArray.length()][6];
             movies = new MovieParcel[movieArray.length()];
             for(int i = 0; i < movieArray.length(); i++) {
                 int k = 0;
@@ -222,8 +181,10 @@ public class MovieListFragment extends android.support.v4.app.Fragment {
                 resultStrs[i][k+2] = movieData.getString(MOVIE_OVERVIEW);
                 resultStrs[i][k+3] = movieData.getString(MOVIE_RELEASE_DATE);
                 resultStrs[i][k+4] = movieData.getString(MOVIE_VOTES);
+                resultStrs[i][k+5] = Integer.toString(movieData.getInt(MOVIE_ID));
 
-                Log.d(LOG_TAG, "Movie data :" + i + "\n" + resultStrs[i]);
+
+                Log.d(LOG_TAG, "Movie data :" + i + " | "+ resultStrs[i][k+5]);
             }
             movieList = new ArrayList<MovieParcel>(Arrays.asList(movies));
             return resultStrs;
@@ -322,7 +283,7 @@ public class MovieListFragment extends android.support.v4.app.Fragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Log.d(LOG_TAG,"Clicked : " + i);
                         // Include ID
-                        mCallback.onMovieSelected(i,1,result[i][0]
+                        mCallback.onMovieSelected(i,Integer.valueOf(result[i][5]),result[i][0]
                                 ,result[i][1],result[i][2],result[i][3],result[i][4]);
                     }
                 });
@@ -333,21 +294,14 @@ public class MovieListFragment extends android.support.v4.app.Fragment {
 
     private void crossfade() {
 
-        // Set the content view to 0% opacity but visible, so that it is visible
-        // (but fully transparent) during the animation.
         moviesGrid.setAlpha(0f);
         moviesGrid.setVisibility(View.VISIBLE);
 
-        // Animate the content view to 100% opacity, and clear any animation
-        // listener set on the view.
         moviesGrid.animate()
                 .alpha(1f)
                 .setDuration(mShortAnimationDuration)
                 .setListener(null);
 
-        // Animate the loading view to 0% opacity. After the animation ends,
-        // set its visibility to GONE as an optimization step (it won't
-        // participate in layout passes, etc.)
         mLoadingView.animate()
                 .alpha(0f)
                 .setDuration(mShortAnimationDuration)

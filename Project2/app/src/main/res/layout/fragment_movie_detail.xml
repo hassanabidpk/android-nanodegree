@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:background="@color/title_background"
         android:textColor="@android:color/white"
-        android:textSize="28sp"
+        android:textSize="24sp"
         android:gravity="center"
         android:layout_height="100dp" />
    </FrameLayout>
@@ -36,6 +36,7 @@
 
     <ScrollView
         android:layout_width="wrap_content"
+        android:id="@+id/movieScrolLView"
         android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -91,6 +92,7 @@
                 android:layout_below="@id/separator1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
                 android:layout_marginTop="@dimen/element_spacing_normal">
 
                 <TextView
@@ -100,6 +102,28 @@
                 android:layout_height="wrap_content"
                 android:text="@string/movietrailer"
                 android:layout_marginLeft="@dimen/element_spacing_normal"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/show_reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/primary_color"
+                android:padding="6dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="@dimen/element_spacing_normal"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/movie_trailers"
+                android:text="@string/show_reviews"/>
+
+            <LinearLayout android:id="@+id/movie_reviews"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_below="@id/show_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
+                android:layout_marginTop="@dimen/element_spacing_normal">
+
             </LinearLayout>
         </RelativeLayout>
 

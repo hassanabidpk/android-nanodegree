@@ -11,10 +11,6 @@
         android:layout_height="match_parent"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
-        android:columnWidth="@dimen/poster_size"
-        android:horizontalSpacing="@dimen/activity_horizontal_margin"
-        android:verticalSpacing="@dimen/activity_vertical_margin"
-
         >
     </GridView>
 

@@ -7,4 +7,5 @@
     <string name="action_highest_rated">Sort by : Highest rated</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="movietrailer">Movie trailers</string>
+    <string name="show_reviews">Show Reviews</string>
 </resources>

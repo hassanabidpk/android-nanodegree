@@ -64,7 +64,6 @@ public class MoviesDataAdapter extends BaseAdapter {
         String posterPath = movie.poster;
         if(posterPath != null) {
             String posterUrl = "http://image.tmdb.org/t/p/w500/" + posterPath;
-            Log.d(LOG_TAG, "poster url : " + posterUrl);
             Picasso.with(mContext).load(posterUrl)
                     .into(imageView);
         } else {
