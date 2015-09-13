@@ -1,6 +1,7 @@
 package com.hassanabid.popularmoviesapp2.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,8 +54,21 @@ public class MoviesDataAdapter extends BaseAdapter {
             view = mInflater.inflate(R.layout.movie_poster_item, null);
             viewHolder = new ViewHolder();
             viewHolder.imageView = (ImageView) view.findViewById(R.id.poster);
-            viewHolder.imageView.setLayoutParams(new LinearLayout
+            if ((mContext.getResources().getConfiguration().screenLayout &
+                    Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                    Configuration.SCREENLAYOUT_SIZE_LARGE ||
+                    (mContext.getResources().getConfiguration().screenLayout &
+                    Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                    Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+                viewHolder.imageView.setLayoutParams(new LinearLayout
+                        .LayoutParams(210  ,300 ));
+            } else {
+
+                viewHolder.imageView.setLayoutParams(new LinearLayout
                     .LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+            }
+
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();

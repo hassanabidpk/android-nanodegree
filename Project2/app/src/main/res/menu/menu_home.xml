@@ -5,4 +5,7 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_rated_movies" android:title="@string/action_highest_rated"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_fav_movies"
+        android:title="@string/action_fav_movies"
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

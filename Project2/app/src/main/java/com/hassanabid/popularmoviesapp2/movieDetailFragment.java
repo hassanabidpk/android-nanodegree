@@ -15,8 +15,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 import com.hassanabid.popularmoviesapp2.adapters.MoviesDataAdapter;
@@ -78,6 +83,7 @@ public class MovieDetailFragment extends Fragment {
     private boolean isSaveInstance;
     private ArrayList<MovieReviewsParcel> movieReviewList;
     MovieReviewsParcel[] movieReviewsParcels;
+    private android.support.v7.widget.ShareActionProvider mShareActionProvider;
 
     public MovieDetailFragment() {
     }
@@ -114,8 +120,10 @@ public class MovieDetailFragment extends Fragment {
         else {
             movieReviewList = savedInstanceState.getParcelableArrayList(MOVIE_REVIEWS_KEY);
             movieTrailers = savedInstanceState.getStringArray(MOVIE_TRAILERS_KEY);
-            Log.d(LOG_TAG,"movieTrailers retrieved: " + movieTrailers.length + " and reviews : " +
-                    movieReviewList.size());
+            if(movieTrailers != null && movieReviewList != null) {
+                Log.d(LOG_TAG, "movieTrailers retrieved: " + movieTrailers.length + " and reviews : " +
+                        movieReviewList.size());
+            }
             isSaveInstance = true;
         }
     }
@@ -138,8 +146,10 @@ public class MovieDetailFragment extends Fragment {
         if (poster.equals("null") || poster.equals(null) || poster.equals("")) {
             posterView.setImageResource(R.drawable.empty_photo);
         } else {
+            String url = "http://image.tmdb.org/t/p/w185/" + poster;
+            Log.d(LOG_TAG,"image url " + url);
             Picasso.with(getActivity())
-                    .load("http://image.tmdb.org/t/p/w500/" + poster)
+                    .load(url)
                     .into(posterView);
         }
 
@@ -175,6 +185,11 @@ public class MovieDetailFragment extends Fragment {
                 });
             }
         });
+
+        setHasOptionsMenu(true);
+        if (movieTrailers != null && movieTrailers.length != 0 && mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(createShareForecastIntent(movieTrailers[0]));
+        }
         return rootView;
     }
 
@@ -331,7 +346,9 @@ public class MovieDetailFragment extends Fragment {
 
         if(trailers == null )
             return;
-
+        if (trailers != null && trailers.length != 0 && mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(createShareForecastIntent(trailers[0]));
+        }
         final ViewGroup viewGroup = trailersLayout;
 
         // Remove all existing trailers (everything but first child, which is the header)
@@ -380,7 +397,6 @@ public class MovieDetailFragment extends Fragment {
         }
 
         final LayoutInflater inflater = getActivity().getLayoutInflater();
-        boolean hasReviews = true;
 
         for (int i= 0; i < reviews.size(); i++) {
             MovieReviewsParcel review = reviews.get(i);
@@ -390,7 +406,6 @@ public class MovieDetailFragment extends Fragment {
                     .findViewById(R.id.reviewAuthor);
             final TextView contentView = (TextView) reviewView
                     .findViewById(R.id.reviewContent);
-            hasReviews = true;
             final String author =review.author;
             final String content =review.content;
             authorView.setText(author);
@@ -398,8 +413,6 @@ public class MovieDetailFragment extends Fragment {
 
             viewGroup.addView(reviewView);
         }
-
-//        viewGroup.setVisibility(hasReviews ? View.VISIBLE : View.GONE);
 
     }
 
@@ -410,7 +423,7 @@ public class MovieDetailFragment extends Fragment {
         outState.putParcelableArrayList(MOVIE_REVIEWS_KEY, movieReviewList);
     }
 
-    private void handleFavorite(int movie_id,FloatingActionButton favoriteButton) {
+    private void handleFavorite(int movie_id, FloatingActionButton favoriteButton) {
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Utility.SHARED_PREFS_MOVIE_APP,
                 Context.MODE_PRIVATE);
@@ -431,16 +444,17 @@ public class MovieDetailFragment extends Fragment {
                     getColor(R.color.accent_color)));
 
         } else {
-            Log.d(LOG_TAG, "ad movie ID to favs");
-            movieIdSet.add(movieId);
+           if(movieIdSet.add(movieId)) {
+                Log.d(LOG_TAG, "ad movie ID to favs");
+            }
             DrawableCompat.setTint(drawable, Color.RED);
             favoriteButton.setImageDrawable(drawable);
             favoriteButton.setBackgroundTintList(ColorStateList.valueOf(getResources().
                     getColor(android.R.color.white)));
 
         }
-//        List<String> favList = new ArrayList<String>();
         editor.putStringSet(Utility.MOVIE_FAV_KEY, movieIdSet);
+        Log.d(LOG_TAG, "current  favs " + movieIdSet.size());
         editor.commit();
 
     }
@@ -467,11 +481,29 @@ public class MovieDetailFragment extends Fragment {
 
             } else {
 
-                DrawableCompat.setTint(drawable,getResources().getColor(R.color.white));
+                DrawableCompat.setTint(drawable, getResources().getColor(R.color.white));
                 favoriteButton.setImageDrawable(drawable);
                 favoriteButton.setBackgroundTintList(ColorStateList.valueOf(getResources().
                         getColor(R.color.accent_color)));
             }
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_detail, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+        mShareActionProvider = (android.support.v7.widget.ShareActionProvider)
+                MenuItemCompat.getActionProvider(menuItem);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private Intent createShareForecastIntent(String source) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "https://www.youtube.com/watch?v=" + source);
+        return shareIntent;
     }
 }

@@ -6,15 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 
 public class MovieListActivity extends AppCompatActivity
         implements MovieListFragment.OnMovieSelectedListener {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
+    private static final String LOG_TAG = MovieListActivity.class.getSimpleName();
     private boolean mTwoPane;
 
     @Override
@@ -24,20 +22,8 @@ public class MovieListActivity extends AppCompatActivity
 
         if (findViewById(R.id.movie_detail_container) != null) {
             mTwoPane = true;
-            // In two-pane mode
-            // Create new fragment and transaction
-            Fragment movieListFragment = new MovieListFragment();
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
-                    .beginTransaction();
-            Bundle arguments = new Bundle();
-            arguments.putInt(MovieDetailFragment.ID_KEY, 1);
-            transaction.replace(R.id.movie_list, movieListFragment);
-            transaction.addToBackStack(null);
-
-            transaction.commit();
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
     }
 
 
@@ -73,6 +59,28 @@ public class MovieListActivity extends AppCompatActivity
             intent.putExtra(MovieDetailFragment.RELEASE_DATE_KEY, release_date);
             intent.putExtra(MovieDetailFragment.VOTES_KEY, votes);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onFetchFirstMovie(int position, int id, String title, String poster_path, String overview, String release_date, String votes) {
+        if(mTwoPane) {
+            Log.d(LOG_TAG,"fetch first movie for tablet");
+            Bundle arguments = new Bundle();
+            arguments.putInt(MovieDetailFragment.ID_KEY, id);
+            arguments.putString(MovieDetailFragment.TITLE_KEY, title);
+            arguments.putString(MovieDetailFragment.POSTER_KEY, poster_path);
+            arguments.putString(MovieDetailFragment.OVERVIEW_KEY, overview);
+            arguments.putString(MovieDetailFragment.RELEASE_DATE_KEY, release_date);
+            arguments.putString(MovieDetailFragment.VOTES_KEY, votes);
+
+
+            MovieDetailFragment fragment = new MovieDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container, fragment)
+                    .commit();
+
         }
     }
 }
