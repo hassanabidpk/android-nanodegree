@@ -73,6 +73,8 @@ public class BookService extends IntentService {
      */
     private void fetchBook(String ean) {
 
+        Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+
         if(ean.length()!=13){
             return;
         }
@@ -86,6 +88,8 @@ public class BookService extends IntentService {
         );
 
         if(bookEntry.getCount()>0){
+            messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.book_added_already));
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
             bookEntry.close();
             return;
         }
@@ -161,7 +165,7 @@ public class BookService extends IntentService {
         try {
             JSONObject bookJson = new JSONObject(bookJsonString);
             JSONArray bookArray;
-            Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+
             if(bookJson.has(ITEMS)){
                 bookArray = bookJson.getJSONArray(ITEMS);
             }else{
