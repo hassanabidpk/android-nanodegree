@@ -8,5 +8,9 @@
         <dimen name="TeamNames">17sp</dimen>
         <dimen name="Score">30sp</dimen>
         <dimen name="League">15sp</dimen>
-    </resources>
+    <dimen name="widget_min_width">200dp</dimen>
+    <dimen name="widget_min_height">150dp</dimen>
+    <dimen name="widget_margin">8dp</dimen>
+
+</resources>
 
