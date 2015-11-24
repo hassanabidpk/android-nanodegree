@@ -2,10 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="barqsoft.footballscores" >
 
+<<<<<<< HEAD
     <!--<uses-permission-->
         <!--android:name="android.permission.INTERNET"-->
         <!--android:maxSdkVersion="22" />-->
     <uses-permission android:name="android.permission.INTERNET" />
+=======
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+>>>>>>> master
 
     <application
         android:allowBackup="true"
@@ -34,7 +39,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="barqsoft.footballscores.MainActivity" />
         </activity>
+
         <service android:name=".service.myFetchService" />
+
+        <service android:name=".service.FootballWidgetRemoteService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS">
+
+        </service>
+
+        <receiver android:name="FootballAppWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider" />
+        </receiver>
+
     </application>
 
 </manifest>
