@@ -1,16 +1,18 @@
-package barqsoft.footballscores;
+package barqsoft.footballscores.widget;
 
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 
-import barqsoft.footballscores.service.FootballWidgetRemoteService;
+import barqsoft.footballscores.MainActivity;
+import barqsoft.footballscores.R;
 
 /**
  * Created by csd on 11/23/15.
@@ -49,14 +51,14 @@ public class FootballAppWidgetProvider extends AppWidgetProvider {
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void setRemoteAdapterforIceCream(RemoteViews views, Context context) {
 
-        views.setRemoteAdapter(R.id.football_scores_list,new Intent(context,
+        views.setRemoteAdapter(R.id.football_scores_list, new Intent(context,
                 FootballWidgetRemoteService.class));
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setRemoteAdapterforHoneCombBelow(RemoteViews views, Context context) {
 
-        views.setRemoteAdapter(0,R.id.football_scores_list,new Intent(context,
+        views.setRemoteAdapter(0, R.id.football_scores_list, new Intent(context,
                 FootballWidgetRemoteService.class));
     }
 
@@ -65,18 +67,11 @@ public class FootballAppWidgetProvider extends AppWidgetProvider {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
-        super.onDeleted(context, appWidgetIds);
-    }
-
-    @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
+    public void onReceive(Context context, Intent intent) {
+        AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(context);
+        int[] appWidgetIds=appWidgetManager.getAppWidgetIds(new ComponentName(context,getClass()));
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.football_scores_list);
     }
 }

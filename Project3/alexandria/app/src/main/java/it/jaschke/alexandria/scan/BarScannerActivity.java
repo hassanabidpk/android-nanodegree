@@ -27,7 +27,7 @@ public class BarScannerActivity extends Activity implements ZBarScannerView.Resu
         super.onCreate(state);
         mScannerView = new ZBarScannerView(this);    // Programmatically initialize the scanner view
         List<BarcodeFormat> barcodeFormats = new ArrayList<>();
-        barcodeFormats.add(BarcodeFormat.ISBN13);
+//        barcodeFormats.add(BarcodeFormat.ISBN13);
         barcodeFormats.add(BarcodeFormat.EAN13);
         mScannerView.setFormats(barcodeFormats);
         mScannerView.setAutoFocus(true);

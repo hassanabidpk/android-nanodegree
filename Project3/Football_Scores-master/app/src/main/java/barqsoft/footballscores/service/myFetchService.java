@@ -119,7 +119,6 @@ public class myFetchService extends IntentService
                     return;
                 }
 
-
                 processJSONdata(JSON_data, getApplicationContext(), true);
             } else {
                 //Could not Connect
@@ -192,11 +191,13 @@ public class myFetchService extends IntentService
                 //add leagues here in order to have them be added to the DB.
                 // If you are finding no data in the app, check that this contains all the leagues.
                 // If it doesn't, that can cause an empty DB, bypassing the dummy data routine.
+                Log.d(LOG_TAG,"league : " + League);
                 if(     League.equals(PREMIER_LEAGUE)      ||
                         League.equals(SERIE_A)             ||
-                        League.equals(BUNDESLIGA1)         ||
-                        League.equals(BUNDESLIGA2)         ||
-                        League.equals(PRIMERA_DIVISION)     )
+                         League.equals(BUNDESLIGA1)         ||
+                         League.equals(BUNDESLIGA2)         ||
+                        League.equals(PRIMERA_DIVISION)     ||
+                        League.equals(SEGUNDA_DIVISION))
                 {
                     match_id = match_data.getJSONObject(LINKS).getJSONObject(SELF).
                             getString("href");
@@ -221,7 +222,7 @@ public class myFetchService extends IntentService
 
                         if(!isReal){
                             //This if statement changes the dummy data's date to match our current date range.
-                            Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
+                            Date fragmentdate = new Date(System.currentTimeMillis()+((i-7)*86400000));
                             SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
                             mDate=mformat.format(fragmentdate);
                         }
@@ -248,13 +249,13 @@ public class myFetchService extends IntentService
                     match_values.put(DatabaseContract.scores_table.MATCH_DAY,match_day);
                     //log spam
 
-                    //Log.v(LOG_TAG,match_id);
-                    //Log.v(LOG_TAG,mDate);
-                    //Log.v(LOG_TAG,mTime);
-                    //Log.v(LOG_TAG,Home);
-                    //Log.v(LOG_TAG,Away);
-                    //Log.v(LOG_TAG,Home_goals);
-                    //Log.v(LOG_TAG,Away_goals);
+                    Log.v(LOG_TAG,match_id);
+                    Log.v(LOG_TAG,mDate);
+                    Log.v(LOG_TAG,mTime);
+                    Log.v(LOG_TAG,Home);
+                    Log.v(LOG_TAG,Away);
+                    Log.v(LOG_TAG,Home_goals);
+                    Log.v(LOG_TAG,Away_goals);
 
                     values.add(match_values);
                 }

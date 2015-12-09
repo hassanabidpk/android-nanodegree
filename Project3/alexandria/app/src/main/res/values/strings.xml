@@ -28,6 +28,7 @@
     <string name="no_network_available">Network not available</string>
     <string name="snackbar_action">OK</string>
     <string name="book_found">Book: %s found and added</string>
+    <string name="book_added_already">Book added already!</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="about_text">This application gets book information from a Google API. All titles, cover images, and author information come from there.
