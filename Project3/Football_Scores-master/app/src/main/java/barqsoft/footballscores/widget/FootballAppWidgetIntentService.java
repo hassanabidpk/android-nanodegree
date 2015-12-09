@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +26,8 @@ import barqsoft.footballscores.R;
  * Created by hassanabid on 12/7/15.
  */
 public class FootballAppWidgetIntentService extends IntentService implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final String LOG_TAG = FootballAppWidgetIntentService.class.getSimpleName();
 
     private static final String[] FOOTBALL_SCORE_COLUMNS = {
             DatabaseContract.scores_table.DATE_COL,
@@ -53,13 +56,15 @@ public class FootballAppWidgetIntentService extends IntentService implements Loa
     @Override
     protected void onHandleIntent(Intent intent) {
 
+        Log.d(LOG_TAG,"onHandleIntent");
+
         // Retrieve all of the widget ids: these are the widgets we need to update
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this,
                 FoortballAppWidgetSimpleProvider.class));
 
         Uri footballDateUri = DatabaseContract.scores_table.buildScoreWithDate();
-
+        // For test use yesterday date - subtract this -24*60*60*1000
         Date requiredDate = new Date(System.currentTimeMillis());
         SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -69,9 +74,11 @@ public class FootballAppWidgetIntentService extends IntentService implements Loa
                 "date",today,null);
 
         if (data == null) {
+            Log.d(LOG_TAG,"data is null");
             return;
         }
         if (!data.moveToFirst()) {
+            Log.d(LOG_TAG,"data.moveToFirst");
             data.close();
             return;
         }
@@ -90,10 +97,12 @@ public class FootballAppWidgetIntentService extends IntentService implements Loa
             String gameScore = Utilies.getScores(homeScore,awayScore);
 
             RemoteViews views = new RemoteViews(getPackageName(), layoutId);
-
             views.setTextViewText(R.id.home_name, homeTeam);
             views.setTextViewText(R.id.away_name, awayTeam);
             views.setTextViewText(R.id.score_textview, gameScore);
+
+            Log.d(LOG_TAG, " string obtained from db:  " + homeTeam + "/" + awayTeam + ":" + gameScore);
+
 
             // Create an Intent to launch MainActivity
             Intent launchIntent = new Intent(this, MainActivity.class);

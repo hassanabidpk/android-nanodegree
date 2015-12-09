@@ -3,7 +3,7 @@
     android:minWidth="@dimen/widget_min_width"
     android:minHeight="@dimen/widget_min_height"
     android:minResizeHeight="@dimen/widget_min_height"
-    android:updatePeriodMillis="86400000"
+    android:updatePeriodMillis="1800000"
     android:previewImage="@drawable/ic_launcher"
     android:initialLayout="@layout/football_simple_widget"
     android:resizeMode="vertical|horizontal"

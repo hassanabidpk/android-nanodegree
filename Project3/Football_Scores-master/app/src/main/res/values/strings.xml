@@ -13,7 +13,7 @@
     <string name="premierleague">Premier League</string>
     <string name="primeradivison">Primera Division</string>
     <string name="seriaa">Serie A</string>
-    <string name="matchday_text">Match day</string>
+    <string name="matchday_text">Match day :</string>
     <string name="group_stage_text">Group stages</string>
     <string name="first_knockout_round">First knockout round</string>
     <string name="quarter_final">Quarter Final</string>
@@ -45,6 +45,8 @@
     <string name="football_score_list">Football Score List</string>
     <string name="home_team_icon">Home Team Icon</string>
     <string name="away_team_icon">Away Team Icon</string>
+    <string name="not_known_league">Not known League Please report</string>
+    <string name="no_match_available">No Match available today!</string>
 
 
 </resources>
