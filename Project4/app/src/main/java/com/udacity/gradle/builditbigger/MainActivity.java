@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("MainActivity", "tell joke button clicked");
-//                tellJoke(view);
                 new EndpointsAsyncTask(MainActivity.this).execute();
             }
         });
@@ -53,17 +52,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void tellJoke(View view){
-        TellJokes tellJokes = new TellJokes();
-        String sJoke = tellJokes.getJoke();
-        Intent intent = new Intent(this, AndroidLibActivity.class);
-        intent.putExtra(AndroidLibActivity.JOKE_KEY,sJoke);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-
-//        Toast.makeText(this,joke.joke(),Toast.LENGTH_LONG).show();
     }
 
 
