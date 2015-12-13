@@ -16,8 +16,9 @@ public class AndroidLibActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(LOG_TAG, "androidLibrary MainActivity");
         String joke = getIntent().getStringExtra(JOKE_KEY);
-
-        Toast.makeText(this,joke,Toast.LENGTH_LONG).show();
-
+        if(joke != null)
+            Toast.makeText(this,joke,Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(this,"Something went wrong!",Toast.LENGTH_LONG).show();
     }
 }
