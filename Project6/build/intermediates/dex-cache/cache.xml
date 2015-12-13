@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5b37cf49773f7f17aca9830efd3053b0cac56728">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-74b7e70c709b9813f9aa4b6f5c876d809e7e9619.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-3bccbd8b722cc636d525e5067a7df69da46184e1.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.5.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8d736fefa22d896e84a268354b3ed48a42663150">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-ba476daacb72695b465419f544813c3cfa1eab13.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/exploded-aar/com.android.support/design/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="fc63b820d54c8a27a3a614bdd93920e0076581c2">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/classes-0dd266c8c46e03841eb234565d323367141ef711.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/exploded-aar/com.android.support/gridlayout-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4c72b7305d9c42d7729d66694dc984f69896a844">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/classes-f1a898c897fabc8cf98d0fb2b9ce5fc274a54617.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/classes-6219f07cc5573442d756d28b00eb5274ce6afa00.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a78183f30e769a98ab4820794f597763088d3065">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-223c81455fda7645a0dc3ea901eae9f4a494f230.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.5.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="06a42becc33232ec0ee125161da68c1829c9f8fd">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-eec3d539bcfbe988d94b50863e8a8bbf0ef10f6a.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/classes-6123182ad6b83f0981c4f0e2124dad66e1365661.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="97f7e239e86ef994de894818fdd8a71d2e89d6aa">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/classes-7dd24cfce235b89afcc3adbd7aa0a13052324776.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.android.support/gridlayout-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4c72b7305d9c42d7729d66694dc984f69896a844">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-551630f44fdd762fb96681cb060e05003736e54b.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.5.2/ecf534dba3a8446ce84cbb797d314763be212a68/glide-3.5.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ecf534dba3a8446ce84cbb797d314763be212a68">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/glide-3.5.2-c18c99be31af016e99b322efb24d8800e1bb0607.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a78183f30e769a98ab4820794f597763088d3065">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/classes-299ad3e5cdacc131114837bf285eeda47ec02533.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-eaa8fde5603267caf3dc04df76e252f30e295b00.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/7.5.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1e98ef3f124bb7a11f8575f9ff5dfea330b61b6f">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-7055e99ec7a7576b75307b3db59449be960351af.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-25bd28d707f8e6415307dd2ee4a7762c31cdb5f2.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-2e2b9be033950871870f99fe0f293e43c05c3ac9.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.android.support/design/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="fc63b820d54c8a27a3a614bdd93920e0076581c2">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-4618d4004d2e762fc11d15858470a0d54d9ce9db.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="97f7e239e86ef994de894818fdd8a71d2e89d6aa">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/classes-c58c17ba82d09dca56db312a39b2ee104c2a3d06.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-eeee8c5c3718afab044718ed8ef38250a5affe0e.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5b37cf49773f7f17aca9830efd3053b0cac56728">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/classes-1ee868ca05d9a1030a7a1267d7ef264ed9f93c1b.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.5.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8d736fefa22d896e84a268354b3ed48a42663150">
+        <dex dex="/Users/hassanabid/Documents/hassan/open_source/Advanced_Android_Development/app/build/intermediates/pre-dexed/debug/classes-ca003407df4898be58de5dc2922b6ad4cba0c53e.jar" />
+    </item>
+    <item
+        jar="/Users/hassanabid/.gradle/caches/modules-2/files-2.1/com.google.android.apps.muzei/muzei-api/2.0/ea86be2a201e6ad86dacffe774dbc6d89fcb0c92/muzei-api-2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ea86be2a201e6ad86dacffe774dbc6d89fcb0c92">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project6/app/build/intermediates/pre-dexed/debug/muzei-api-2.0-bbffaf41a3a29579fddbbc6e1e378b1e6d831207.jar" />
+    </item>
+
+</items>
