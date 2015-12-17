@@ -40,8 +40,8 @@
     <!-- Permissions required to use the Place Picker -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!-- Required to act as a custom watch face. -->
-    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
+    <!-- Permissions required by the wearable sunshine app -->
+    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND"/>
 
     <application
         android:allowBackup="true"
@@ -186,6 +186,13 @@
         <service
             android:name=".gcm.RegistrationIntentService"
             android:exported="false"></service>
+
+        <service android:name=".sync.SunshineWatchService"
+            android:exported="false"></service>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

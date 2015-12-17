@@ -16,6 +16,7 @@
 package com.example.android.sunshine.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.text.format.Time;
 
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
+import com.example.android.sunshine.app.sync.SunshineWatchService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -598,5 +600,12 @@ public class Utility {
         SharedPreferences.Editor spe = sp.edit();
         spe.putInt(c.getString(R.string.pref_location_status_key), SunshineSyncAdapter.LOCATION_STATUS_UNKNOWN);
         spe.apply();
+    }
+
+    public static void updateSunshineWatchFace(Context context) {
+        Intent watchIntent = new Intent(context, SunshineWatchService.class);
+        watchIntent.setAction(SunshineWatchService.UPDATE_WATCHFACE);
+        context.startService(watchIntent);
+
     }
 }

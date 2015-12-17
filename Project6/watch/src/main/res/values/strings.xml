@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
     <string name="app_name">Sunshine Watch Face</string>
     <string name="my_digital_name">Sunshine Digital</string>
+    <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
 </resources>
