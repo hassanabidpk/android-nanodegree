@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="digital_text_size">30dp</dimen>
+    <dimen name="digital_text_size_round">35dp</dimen>
+    <dimen name="htemp_text_size">25dp</dimen>
+    <dimen name="htemp_text_size_round">30dp</dimen>
+    <dimen name="ltemp_text_size">25dp</dimen>
+    <dimen name="ltemp_text_size_round">30dp</dimen>
+    <dimen name="digital_x_offset">55dp</dimen>
+    <dimen name="digital_x_offset_round">60dp</dimen>
+    <dimen name="digital_x_date_offset">35dp</dimen>
+    <dimen name="digital_x_date_offset_round">30dp</dimen>
+    <dimen name="digital_x_htemp_offset">78dp</dimen>
+    <dimen name="digital_x_htemp_offset_round">84dp</dimen>
+    <dimen name="digital_x_ltemp_offset">126dp</dimen>
+    <dimen name="digital_x_ltemp_offset_round">131dp</dimen>
+    <dimen name="digital_x_image_offset">38dp</dimen>
+    <dimen name="digital_x_image_offset_round">33dp</dimen>
+
+
+    <dimen name="digital_y_offset">78dp</dimen>
+    <dimen name="digital_y_date_offset">84dp</dimen>
+    <dimen name="digital_y_htemp_offset">135dp</dimen>
+    <dimen name="digital_y_ltemp_offset">135dp</dimen>
+    <dimen name="digital_line_height">25dp</dimen>
+    <dimen name="digital_date_text_size">20dp</dimen>
+
+</resources>
