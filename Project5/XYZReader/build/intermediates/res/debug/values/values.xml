@@ -264,8 +264,8 @@
     <dimen name="fab_content_size">24dp</dimen>
     <!-- From: file:/Users/hassanabid/Documents/hassan/android-nanodegree/Project5/XYZReader/src/main/res/values/dimens.xml -->
     <eat-comment/>
-    <dimen name="fab_elevation">2dp</dimen>
-    <dimen name="fab_margin">24dp</dimen>
+    <dimen name="fab_elevation">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
     <dimen name="fab_press_translation_z">6dp</dimen>
     <!-- From: file:/Users/hassanabid/Documents/hassan/android-nanodegree/Project5/XYZReader/build/intermediates/exploded-aar/com.android.support/design/22.2.1/res/values/values.xml -->
     <eat-comment/>
@@ -274,6 +274,7 @@
     <dimen name="fab_translation_z_pressed">6dp</dimen>
     <!-- From: file:/Users/hassanabid/Documents/hassan/android-nanodegree/Project5/XYZReader/src/main/res/values/macro_layout.xml -->
     <eat-comment/>
+    <dimen name="horizontal_vertical_margin">16dp</dimen>
     <dimen name="list_side_margin">4dp</dimen>
     <dimen name="list_toolbar_side_margin">0dp</dimen>
     <!-- From: file:/Users/hassanabid/Documents/hassan/android-nanodegree/Project5/XYZReader/src/main/res/values/dimens.xml -->

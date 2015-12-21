@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="/Users/hassanabid/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.6.0/a7537446a030da8eb0da4c71424d16c2589f6c4a/glide-3.6.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a7537446a030da8eb0da4c71424d16c2589f6c4a">
+        <dex dex="/Users/hassanabid/Documents/hassan/android-nanodegree/Project5/XYZReader/build/intermediates/pre-dexed/debug/glide-3.6.0-7033bb50bc94dfaa1388dd1d32a66d994ea0771b.jar" />
+    </item>
+    <item
         jar="/Users/hassanabid/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/1.1.0/d51280dbb4e8539f6c3f369d516edc26f9d89d31/okhttp-1.1.0.jar"
         jumboMode="false"
         revision="22.0.1"
