@@ -1,17 +1,10 @@
 
 Project1/.idea/.name
-<<<<<<< HEAD
 Project4/.gradle/*
 Project6/.gradle/*
 Project6/app/build/*
-
-||||||| merged common ancestors
-=======
-
 Project6/.gradle/*
 Project/.idea/*
-
 *.lock
-
 *.bin
->>>>>>> project-6
+
